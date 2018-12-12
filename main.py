@@ -70,6 +70,7 @@ def reg():
             id = i
             break
 
+
     result = jsonify({"result":models[id].prdected(content)[0]})
     return  result
 
