@@ -2,8 +2,7 @@
 # filename: main.py
 import os
 import sys
-from flask import Flask,jsonify
-import flask
+from flask import Flask,jsonify,request
 import re
 import jieba
 from keras.layers import Embedding, Dense, Bidirectional, Conv1D, MaxPool1D, GRU,CuDNNGRU,BatchNormalization,Activation,Dropout
@@ -62,15 +61,13 @@ for i in range(0, len(citycode)):
 server=Flask(__name__)#__name__代表当前的python文件。把当前的python文件当做一个服务启动
 @server.route('/city',methods=['post'])#只有在函数前加上@server.route (),这个函数才是个接口，不是一般的函数
 def reg():
-    content=flask.request.values.get('content')
-    in_code = flask.request.values.get("in_code")
+    content= request.values.get('content')
+    in_code = request.values.get("in_code")
     id = ""
     for i in range(len(models)):
         if models[i].model_id == in_code:
             id = i
             break
-
-
     result = jsonify({"result":models[id].prdected(content)[0]})
     return  result
 
